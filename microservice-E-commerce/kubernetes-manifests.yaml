@@ -33,7 +33,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/emailservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/emailservice:v1.13
         ports:
         - containerPort: 8080
         env:
@@ -109,7 +109,7 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
-          image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/checkoutservice:v1.19
+          image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/checkoutservice:v1.13
           ports:
           - containerPort: 5050
           readinessProbe:
@@ -194,7 +194,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/recommendationservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/recommendationservice:v1.13
         ports:
         - containerPort: 8080
         readinessProbe:
@@ -274,7 +274,7 @@ spec:
                 - ALL
             privileged: false
             readOnlyRootFilesystem: true
-          image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/frontend:v1.19
+          image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/frontend:v1.13
           ports:
           - containerPort: 8080
           readinessProbe:
@@ -403,7 +403,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/paymentservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/paymentservice:v1.13
         ports:
         - containerPort: 50051
         env:
@@ -478,7 +478,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/productcatalogservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/productcatalogservice:v1.13
         ports:
         - containerPort: 3550
         env:
@@ -553,7 +553,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/cartservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/cartservice:v1.13
         ports:
         - containerPort: 7070
         env:
@@ -733,7 +733,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/loadgenerator:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/loadgenerator:v1.13
         env:
         - name: FRONTEND_ADDR
           value: "frontend:80"
@@ -787,7 +787,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/currencyservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/currencyservice:v1.13
         ports:
         - name: grpc
           containerPort: 7000
@@ -862,7 +862,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/shippingservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/shippingservice:v1.13
         ports:
         - containerPort: 50051
         env:
@@ -938,7 +938,7 @@ spec:
               - ALL
           privileged: false
           readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/adservice:v1.19
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/adservice:v1.13
         ports:
         - containerPort: 9555
         env:
