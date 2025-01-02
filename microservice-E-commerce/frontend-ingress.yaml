@@ -6,7 +6,7 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing # Makes the ALB internet-facing
     alb.ingress.kubernetes.io/target-type: ip # Target IP addresses of pods
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]' # Listen on HTTP port
-    # alb.ingress.kubernetes.io/subnets: "subnet-xyz1234567890abcd, subnet-xyz0987654321efgh"
+    alb.ingress.kubernetes.io/subnets: "subnet-0fd8bda1f01b2b726, subnet-0c08cf2eca1cdae88"
   labels:
     app: frontend
 spec:
