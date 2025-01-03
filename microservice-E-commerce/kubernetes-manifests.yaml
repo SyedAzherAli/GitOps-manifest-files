@@ -4,8 +4,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: emailservice
-  labels:
-    app: emailservice
 spec:
   selector:
     matchLabels:
@@ -15,15 +13,15 @@ spec:
       labels:
         app: emailservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: emailservice
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key 
       containers:
       - name: server
         securityContext:
@@ -61,8 +59,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: emailservice
-  labels:
-    app: emailservice
 spec:
   type: ClusterIP
   selector:
@@ -72,17 +68,10 @@ spec:
     port: 5000
     targetPort: 8080
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: emailservice
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: checkoutservice
-  labels:
-    app: checkoutservice
 spec:
   selector:
     matchLabels:
@@ -92,14 +81,14 @@ spec:
       labels:
         app: checkoutservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: checkoutservice
+      serviceAccountName: default
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key
       containers:
         - name: server
           securityContext:
@@ -145,8 +134,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: checkoutservice
-  labels:
-    app: checkoutservice
 spec:
   type: ClusterIP
   selector:
@@ -156,17 +143,10 @@ spec:
     port: 5050
     targetPort: 5050
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: checkoutservice
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: recommendationservice
-  labels:
-    app: recommendationservice
 spec:
   selector:
     matchLabels:
@@ -176,15 +156,15 @@ spec:
       labels:
         app: recommendationservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: recommendationservice
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key
       containers:
       - name: server
         securityContext:
@@ -224,8 +204,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: recommendationservice
-  labels:
-    app: recommendationservice
 spec:
   type: ClusterIP
   selector:
@@ -235,17 +213,10 @@ spec:
     port: 8080
     targetPort: 8080
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: recommendationservice
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  labels:
-    app: frontend
 spec:
   selector:
     matchLabels:
@@ -257,14 +228,14 @@ spec:
       annotations:
         sidecar.istio.io/rewriteAppHTTPProbers: "true"
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: frontend
+      serviceAccountName: default
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key 
       containers:
         - name: server
           securityContext:
@@ -310,8 +281,6 @@ spec:
             value: "checkoutservice:5050"
           - name: AD_SERVICE_ADDR
             value: "adservice:9555"
-          - name: SHOPPING_ASSISTANT_SERVICE_ADDR
-            value: "shoppingassistantservice:80"
           # # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
           # # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
           # - name: ENV_PLATFORM
@@ -320,13 +289,8 @@ spec:
             value: "0"
           # - name: CYMBAL_BRANDING
           #   value: "true"
-          # - name: ENABLE_ASSISTANT
-          #   value: "true"
           # - name: FRONTEND_MESSAGE
           #   value: "Replace this with a message you want to display on all pages."
-          # As part of an optional Google Cloud demo, you can run an optional microservice called the "packaging service".
-          # - name: PACKAGING_SERVICE_URL
-          #   value: "" # This value would look like "http://123.123.123"
           resources:
             requests:
               cpu: 100m
@@ -339,8 +303,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  labels:
-    app: frontend
 spec:
   type: ClusterIP
   selector:
@@ -354,10 +316,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend-external
-  labels:
-    app: frontend
 spec:
-  type: LoadBalancer
+  type: ClusterIP
   selector:
     app: frontend
   ports:
@@ -365,17 +325,10 @@ spec:
     port: 80
     targetPort: 8080
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: frontend
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: paymentservice
-  labels:
-    app: paymentservice
 spec:
   selector:
     matchLabels:
@@ -385,15 +338,15 @@ spec:
       labels:
         app: paymentservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: paymentservice
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key 
       containers:
       - name: server
         securityContext:
@@ -429,8 +382,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: paymentservice
-  labels:
-    app: paymentservice
 spec:
   type: ClusterIP
   selector:
@@ -440,17 +391,10 @@ spec:
     port: 50051
     targetPort: 50051
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: paymentservice
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: productcatalogservice
-  labels:
-    app: productcatalogservice
 spec:
   selector:
     matchLabels:
@@ -460,15 +404,15 @@ spec:
       labels:
         app: productcatalogservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: productcatalogservice
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key
       containers:
       - name: server
         securityContext:
@@ -504,8 +448,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: productcatalogservice
-  labels:
-    app: productcatalogservice
 spec:
   type: ClusterIP
   selector:
@@ -515,17 +457,10 @@ spec:
     port: 3550
     targetPort: 3550
 ---
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: productcatalogservice
----
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cartservice
-  labels:
-    app: cartservice
 spec:
   selector:
     matchLabels:
@@ -535,15 +470,15 @@ spec:
       labels:
         app: cartservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: cartservice
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key
       containers:
       - name: server
         securityContext:
@@ -580,8 +515,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cartservice
-  labels:
-    app: cartservice
 spec:
   type: ClusterIP
   selector:
@@ -591,17 +524,215 @@ spec:
     port: 7070
     targetPort: 7070
 ---
-apiVersion: v1
-kind: ServiceAccount
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: cartservice
+  name: loadgenerator
+spec:
+  selector:
+    matchLabels:
+      app: loadgenerator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: loadgenerator
+      annotations:
+        sidecar.istio.io/rewriteAppHTTPProbers: "true"
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      restartPolicy: Always
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      initContainers:
+      - command:
+        - /bin/sh
+        - -exc
+        - |
+          echo "Init container pinging frontend: ${FRONTEND_ADDR}..."
+          STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2>&1 | awk '/^  HTTP/{print $2}')
+          if test $STATUSCODE -ne 200; then
+              echo "Error: Could not reach frontend - Status code: ${STATUSCODE}"
+              exit 1
+          fi
+        name: frontend-check
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: busybox:latest
+        env:
+        - name: FRONTEND_ADDR
+          value: "frontend:80"
+      imagePullSecrets:
+      - name: ecr-registry-key
+      containers:
+      - name: main
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/loadgenerator:v1.2
+        env:
+        - name: FRONTEND_ADDR
+          value: "frontend:80"
+        - name: USERS
+          value: "10"
+        resources:
+          requests:
+            cpu: 300m
+            memory: 256Mi
+          limits:
+            cpu: 500m
+            memory: 512Mi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: currencyservice
+spec:
+  selector:
+    matchLabels:
+      app: currencyservice
+  template:
+    metadata:
+      labels:
+        app: currencyservice
+    spec:
+      serviceAccountName: default
+      terminationGracePeriodSeconds: 5
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key
+      containers:
+      - name: server
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/currencyservice:v1.2
+        ports:
+        - name: grpc
+          containerPort: 7000
+        env:
+        - name: PORT
+          value: "7000"
+        - name: DISABLE_PROFILER
+          value: "1"
+        readinessProbe:
+          grpc:
+            port: 7000
+        livenessProbe:
+          grpc:
+            port: 7000
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: currencyservice
+spec:
+  type: ClusterIP
+  selector:
+    app: currencyservice
+  ports:
+  - name: grpc
+    port: 7000
+    targetPort: 7000
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: shippingservice
+spec:
+  selector:
+    matchLabels:
+      app: shippingservice
+  template:
+    metadata:
+      labels:
+        app: shippingservice
+    spec:
+      serviceAccountName: default
+      securityContext:
+        fsGroup: 1000
+        runAsGroup: 1000
+        runAsNonRoot: true
+        runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key
+      containers:
+      - name: server
+        securityContext:
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+              - ALL
+          privileged: false
+          readOnlyRootFilesystem: true
+        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/shippingservice:v1.2
+        ports:
+        - containerPort: 50051
+        env:
+        - name: PORT
+          value: "50051"
+        - name: DISABLE_PROFILER
+          value: "1"
+        readinessProbe:
+          periodSeconds: 5
+          grpc:
+            port: 50051
+        livenessProbe:
+          grpc:
+            port: 50051
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 200m
+            memory: 128Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: shippingservice
+spec:
+  type: ClusterIP
+  selector:
+    app: shippingservice
+  ports:
+  - name: grpc
+    port: 50051
+    targetPort: 50051
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-cart
-  labels:
-    app: redis-cart
 spec:
   selector:
     matchLabels:
@@ -654,8 +785,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis-cart
-  labels:
-    app: redis-cart
 spec:
   type: ClusterIP
   selector:
@@ -668,249 +797,7 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: loadgenerator
-  labels:
-    app: loadgenerator
-spec:
-  selector:
-    matchLabels:
-      app: loadgenerator
-  replicas: 1
-  template:
-    metadata:
-      labels:
-        app: loadgenerator
-      annotations:
-        sidecar.istio.io/rewriteAppHTTPProbers: "true"
-    spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: loadgenerator
-      terminationGracePeriodSeconds: 5
-      restartPolicy: Always
-      securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
-      initContainers:
-      - command:
-        - /bin/sh
-        - -exc
-        - |
-          MAX_RETRIES=12
-          RETRY_INTERVAL=10
-          for i in $(seq 1 $MAX_RETRIES); do
-            echo "Attempt $i: Pinging frontend: ${FRONTEND_ADDR}..."
-            STATUSCODE=$(wget --server-response http://${FRONTEND_ADDR} 2>&1 | awk '/^  HTTP/{print $2}')
-            if [ $STATUSCODE -eq 200 ]; then
-                echo "Frontend is reachable."
-                exit 0
-            fi
-            echo "Error: Could not reach frontend - Status code: ${STATUSCODE}"
-            sleep $RETRY_INTERVAL
-          done
-          echo "Failed to reach frontend after $MAX_RETRIES attempts."
-          exit 1
-        name: frontend-check
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-          privileged: false
-          readOnlyRootFilesystem: true
-        image: busybox:latest
-        env:
-        - name: FRONTEND_ADDR
-          value: "frontend:80"
-      containers:
-      - name: main
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-          privileged: false
-          readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/loadgenerator:v1.2
-        env:
-        - name: FRONTEND_ADDR
-          value: "frontend:80"
-        - name: USERS
-          value: "10"
-        - name: RATE
-          value: "1"
-        resources:
-          requests:
-            cpu: 300m
-            memory: 256Mi
-          limits:
-            cpu: 500m
-            memory: 512Mi
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: loadgenerator
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: currencyservice
-  labels:
-    app: currencyservice
-spec:
-  selector:
-    matchLabels:
-      app: currencyservice
-  template:
-    metadata:
-      labels:
-        app: currencyservice
-    spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: currencyservice
-      terminationGracePeriodSeconds: 5
-      securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
-      containers:
-      - name: server
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-          privileged: false
-          readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/currencyservice:v1.2
-        ports:
-        - name: grpc
-          containerPort: 7000
-        env:
-        - name: PORT
-          value: "7000"
-        - name: DISABLE_PROFILER
-          value: "1"
-        readinessProbe:
-          grpc:
-            port: 7000
-        livenessProbe:
-          grpc:
-            port: 7000
-        resources:
-          requests:
-            cpu: 100m
-            memory: 64Mi
-          limits:
-            cpu: 200m
-            memory: 128Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: currencyservice
-  labels:
-    app: currencyservice
-spec:
-  type: ClusterIP
-  selector:
-    app: currencyservice
-  ports:
-  - name: grpc
-    port: 7000
-    targetPort: 7000
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: currencyservice
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: shippingservice
-  labels:
-    app: shippingservice
-spec:
-  selector:
-    matchLabels:
-      app: shippingservice
-  template:
-    metadata:
-      labels:
-        app: shippingservice
-    spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: shippingservice
-      securityContext:
-        fsGroup: 1000
-        runAsGroup: 1000
-        runAsNonRoot: true
-        runAsUser: 1000
-      containers:
-      - name: server
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-          privileged: false
-          readOnlyRootFilesystem: true
-        image: 654654355718.dkr.ecr.ap-south-1.amazonaws.com/shippingservice:v1.2
-        ports:
-        - containerPort: 50051
-        env:
-        - name: PORT
-          value: "50051"
-        - name: DISABLE_PROFILER
-          value: "1"
-        readinessProbe:
-          periodSeconds: 5
-          grpc:
-            port: 50051
-        livenessProbe:
-          grpc:
-            port: 50051
-        resources:
-          requests:
-            cpu: 100m
-            memory: 64Mi
-          limits:
-            cpu: 200m
-            memory: 128Mi
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: shippingservice
-  labels:
-    app: shippingservice
-spec:
-  type: ClusterIP
-  selector:
-    app: shippingservice
-  ports:
-  - name: grpc
-    port: 50051
-    targetPort: 50051
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: shippingservice
----
-apiVersion: apps/v1
-kind: Deployment
-metadata:
   name: adservice
-  labels:
-    app: adservice
 spec:
   selector:
     matchLabels:
@@ -920,15 +807,15 @@ spec:
       labels:
         app: adservice
     spec:
-      imagePullSecrets:
-      - name: ecr-registry-key 
-      serviceAccountName: adservice
+      serviceAccountName: default
       terminationGracePeriodSeconds: 5
       securityContext:
         fsGroup: 1000
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
+      imagePullSecrets:
+      - name: ecr-registry-key 
       containers:
       - name: server
         securityContext:
@@ -966,8 +853,6 @@ apiVersion: v1
 kind: Service
 metadata:
   name: adservice
-  labels:
-    app: adservice
 spec:
   type: ClusterIP
   selector:
@@ -976,9 +861,4 @@ spec:
   - name: grpc
     port: 9555
     targetPort: 9555
----
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: adservice
 # [END gke_release_kubernetes_manifests_microservices_demo]
