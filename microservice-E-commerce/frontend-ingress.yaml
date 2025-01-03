@@ -6,6 +6,7 @@ metadata:
     alb.ingress.kubernetes.io/scheme: internet-facing # Makes the ALB internet-facing
     alb.ingress.kubernetes.io/target-type: ip # Target IP addresses of pods
     alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}]' # Listen on HTTP port
+    alb.ingress.kubernetes.io/idle-timeout: "60" # Increase timeout (default is 60 seconds)
     alb.ingress.kubernetes.io/subnets: "subnet-0056862c81c51611e, subnet-03c9b531f740e28e6"
   labels:
     app: frontend
